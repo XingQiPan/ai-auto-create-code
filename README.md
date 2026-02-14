@@ -110,6 +110,111 @@ cd my-project
 
 ---
 
+## Windows 环境安装指南
+
+在 Windows 上使用本框架需要先安装以下组件：
+
+### 1. 安装 WSL (Windows Subsystem for Linux)
+
+```powershell
+# 以管理员身份运行 PowerShell
+wsl --install
+
+# 安装完成后重启电脑
+# 重启后会自动打开 Ubuntu 终端，设置用户名和密码
+```
+
+### 2. 安装 nvm (Node Version Manager)
+
+```bash
+# 在 WSL Ubuntu 终端中执行
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+# 重新加载配置
+source ~/.bashrc
+
+# 验证安装
+nvm --version
+```
+
+### 3. 安装 Node.js 和 npm
+
+```bash
+# 安装最新 LTS 版本
+nvm install --lts
+
+# 设为默认版本
+nvm use --lts
+
+# 验证安装
+node --version
+npm --version
+```
+
+### 4. 安装 Claude Code
+
+```bash
+# 使用 npm 全局安装
+npm install -g @anthropic-ai/claude-code
+
+# 验证安装
+claude --version
+
+# 首次使用需要登录
+claude
+```
+
+### 5. 授予 Claude Code 最高权限
+
+Claude Code 需要文件读写、执行命令等权限才能正常工作。
+
+**方法一：启动时跳过权限检查（推荐）**
+
+```bash
+# 使用 --dangerously-skip-permissions 启动
+claude --dangerously-skip-permissions
+```
+
+**方法二：在交互中授权**
+
+```bash
+# 正常启动
+claude
+
+# 首次运行时，Claude Code 会请求各种权限
+# 选择 "Yes" 或 "Allow for all" 授予全部权限
+```
+
+**方法三：配置信任项目目录**
+
+```bash
+# 将项目目录添加到信任列表
+claude config add-trusted-folder /path/to/your/project
+```
+
+> ⚠️ **安全提示**：`--dangerously-skip-permissions` 会跳过所有安全检查，请确保在可信环境中使用。
+
+### 6. 克隆并使用项目
+
+```bash
+# 在 WSL 中克隆项目
+git clone https://github.com/XingQiPan/ai-auto-create-code.git
+cd ai-auto-create-code
+
+# 后续步骤同快速开始
+```
+
+### 常见问题
+
+| 问题 | 解决方案 |
+|------|----------|
+| WSL 安装失败 | 确保已启用虚拟化，BIOS 中开启 VT-x |
+| nvm 命令找不到 | 执行 `source ~/.bashrc` 或重启终端 |
+| npm 下载慢 | 设置淘宝镜像：`npm config set registry https://registry.npmmirror.com` |
+| Claude Code 登录失败 | 检查网络代理设置 |
+
+---
+
 ## 致谢
 
 本项目基于 [SamuelQZQ/auto-coding-agent-demo](https://github.com/SamuelQZQ/auto-coding-agent-demo) 开发，感谢原作者的创意和实践。
