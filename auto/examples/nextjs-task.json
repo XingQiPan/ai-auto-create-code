@@ -1,0 +1,142 @@
+{
+  "project": "Todo App 示例项目",
+  "description": "一个简单的任务管理应用，用于演示 Auto Coding Agent 框架",
+  "version": "1.0.0",
+  "tasks": [
+    {
+      "id": 1,
+      "title": "项目初始化",
+      "description": "创建 Next.js 项目并安装依赖",
+      "priority": "high",
+      "steps": [
+        "使用 create-next-app 创建项目（TypeScript + Tailwind CSS）",
+        "安装所需依赖：zustand（状态管理）、uuid（ID 生成）",
+        "创建基础目录结构：components/、hooks/、types/、store/",
+        "创建 types/todo.ts 定义 Todo 类型（id, title, completed, createdAt）"
+      ],
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 2,
+      "title": "状态管理",
+      "description": "使用 Zustand 创建 Todo 状态管理",
+      "priority": "high",
+      "steps": [
+        "创建 store/todoStore.ts",
+        "定义 Todo 接口：{ id: string; title: string; completed: boolean; createdAt: Date }",
+        "实现 addTodo(title: string) 方法",
+        "实现 toggleTodo(id: string) 方法",
+        "实现 deleteTodo(id: string) 方法",
+        "实现 clearCompleted() 方法"
+      ],
+      "dependencies": [1],
+      "passes": false
+    },
+    {
+      "id": 3,
+      "title": "TodoItem 组件",
+      "description": "单个 Todo 项的组件",
+      "priority": "medium",
+      "steps": [
+        "创建 components/TodoItem.tsx",
+        "显示 Todo 标题和完成状态",
+        "点击复选框切换完成状态",
+        "点击删除按钮删除 Todo",
+        "已完成的项目显示删除线样式",
+        "使用 Tailwind CSS 美化样式"
+      ],
+      "dependencies": [2],
+      "passes": false
+    },
+    {
+      "id": 4,
+      "title": "TodoList 组件",
+      "description": "Todo 列表容器组件",
+      "priority": "medium",
+      "steps": [
+        "创建 components/TodoList.tsx",
+        "从 store 读取 todos",
+        "渲染 TodoItem 列表",
+        "处理空状态（显示「暂无任务」提示）"
+      ],
+      "dependencies": [3],
+      "passes": false
+    },
+    {
+      "id": 5,
+      "title": "TodoInput 组件",
+      "description": "添加新 Todo 的输入框",
+      "priority": "medium",
+      "steps": [
+        "创建 components/TodoInput.tsx",
+        "输入框 + 添加按钮",
+        "按 Enter 键也可以添加",
+        "添加后清空输入框",
+        "空内容时禁用添加按钮"
+      ],
+      "dependencies": [2],
+      "passes": false
+    },
+    {
+      "id": 6,
+      "title": "TodoFilters 组件",
+      "description": "过滤和统计组件",
+      "priority": "low",
+      "steps": [
+        "创建 components/TodoFilters.tsx",
+        "显示未完成任务数量",
+        "过滤按钮：全部 / 进行中 / 已完成",
+        "清除已完成任务按钮",
+        "没有已完成任务时隐藏清除按钮"
+      ],
+      "dependencies": [4],
+      "passes": false
+    },
+    {
+      "id": 7,
+      "title": "主页面整合",
+      "description": "在主页整合所有组件",
+      "priority": "high",
+      "steps": [
+        "修改 app/page.tsx",
+        "添加页面标题「Todo App」",
+        "整合 TodoInput、TodoFilters、TodoList 组件",
+        "居中布局，最大宽度 600px",
+        "添加页面背景色"
+      ],
+      "dependencies": [4, 5, 6],
+      "passes": false
+    },
+    {
+      "id": 8,
+      "title": "本地存储持久化",
+      "description": "将 todos 保存到 localStorage",
+      "priority": "medium",
+      "steps": [
+        "修改 store/todoStore.ts",
+        "添加 persist 中间件",
+        "数据变化时自动保存到 localStorage",
+        "页面加载时从 localStorage 恢复数据"
+      ],
+      "dependencies": [2, 7],
+      "passes": false
+    },
+    {
+      "id": 9,
+      "title": "测试和优化",
+      "description": "完整测试和体验优化",
+      "priority": "low",
+      "steps": [
+        "运行 npm run lint 检查代码规范",
+        "运行 npm run build 确保构建成功",
+        "浏览器测试：添加、完成、删除任务",
+        "浏览器测试：过滤功能",
+        "浏览器测试：刷新页面数据保持",
+        "添加加载动画或过渡效果（可选）"
+      ],
+      "dependencies": [7, 8],
+      "passes": false
+    }
+  ]
+}

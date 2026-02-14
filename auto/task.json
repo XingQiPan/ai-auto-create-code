@@ -1,0 +1,32 @@
+{
+  "project": "项目名称",
+  "description": "项目描述",
+  "version": "1.0.0",
+  "tasks": [
+    {
+      "id": 1,
+      "title": "任务标题",
+      "description": "任务描述",
+      "priority": "high",
+      "steps": [
+        "步骤 1：具体要做什么",
+        "步骤 2：具体要做什么",
+        "步骤 3：具体要做什么"
+      ],
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 2,
+      "title": "任务标题 2",
+      "description": "任务描述 2",
+      "priority": "medium",
+      "steps": [
+        "步骤 1",
+        "步骤 2"
+      ],
+      "dependencies": [1],
+      "passes": false
+    }
+  ]
+}

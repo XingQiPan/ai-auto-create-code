@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "projectName": "[项目名称]",
+    "generatedAt": "[生成时间]",
+    "version": "1.0.0"
+  },
+  "pages": [
+    {
+      "path": "/",
+      "file": "app/page.tsx",
+      "description": "首页"
+    },
+    {
+      "path": "/login",
+      "file": "app/login/page.tsx",
+      "description": "登录页"
+    }
+  ],
+  "components": [
+    {
+      "name": "Header",
+      "file": "components/layout/Header.tsx",
+      "description": "顶部导航栏",
+      "props": ["user"]
+    }
+  ],
+  "apiEndpoints": [
+    {
+      "method": "GET",
+      "path": "/api/projects",
+      "file": "app/api/projects/route.ts",
+      "description": "获取项目列表"
+    }
+  ],
+  "modules": [
+    {
+      "name": "projects",
+      "file": "lib/db/projects.ts",
+      "description": "项目数据访问层",
+      "exports": ["createProject", "getProjects", "getProjectById", "updateProject", "deleteProject"]
+    }
+  ],
+  "types": [
+    {
+      "name": "Project",
+      "file": "types/database.ts",
+      "description": "项目类型定义"
+    }
+  ],
+  "externalServices": [
+    {
+      "name": "Supabase",
+      "purpose": "认证和数据库",
+      "config": ["SUPABASE_URL", "SUPABASE_ANON_KEY"]
+    }
+  ],
+  "dependencies": {
+    "pages": {
+      "app/page.tsx": ["components/layout/Header.tsx"]
+    },
+    "api": {
+      "app/api/projects/route.ts": ["lib/db/projects.ts", "lib/supabase/server.ts"]
+    }
+  }
+}
