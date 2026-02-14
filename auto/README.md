@@ -10,6 +10,7 @@
 
 ### 最快启动方式
 
+**Linux/macOS (Bash):**
 ```bash
 # 1. 复制框架到你的项目
 cp -r auto/* my-project/
@@ -20,6 +21,36 @@ cd my-project
 
 # 3. 启动自动开发
 ./run-automation.sh 50
+```
+
+**Windows (PowerShell):**
+```powershell
+# 1. 复制框架到你的项目
+Copy-Item -Recurse auto\* my-project\
+cd my-project
+
+# 2. 用项目描述初始化（自动识别技术栈）
+.\init-project.ps1 -Description "这是一个 Python FastAPI + Vue.js 的博客系统"
+
+# 3. 启动自动开发
+.\run-automation.ps1 -Runs 50
+```
+
+**跨平台统一启动器:**
+```bash
+# Linux/macOS
+./start.sh init              # 初始化环境
+./start.sh run 50            # 运行50次自动化
+./start.sh init-project      # 初始化新项目
+./start.sh build-kb          # 构建知识库
+```
+
+```powershell
+# Windows PowerShell
+.\start.ps1 init             # 初始化环境
+.\start.ps1 run 50           # 运行50次自动化
+.\start.ps1 init-project     # 初始化新项目
+.\start.ps1 build-kb         # 构建知识库
 ```
 
 ### 详细教程
@@ -53,8 +84,20 @@ cd my-project
 | `CLAUDE.md` | Agent 工作指令 | Agent 读取 |
 | `task.json` | 任务定义 + 状态 | Agent 读取/写入 |
 | `progress.txt` | 进度日志 | Agent 写入 |
-| `init.sh` | 环境初始化脚本 | Agent 执行 |
-| `run-automation.sh` | **全自动循环执行器** | 用户执行 |
+| `init.sh` / `init.ps1` | 环境初始化脚本 | Agent 执行 |
+| `run-automation.sh` / `run-automation.ps1` | **全自动循环执行器** | 用户执行 |
+| `start.sh` / `start.ps1` | **跨平台统一启动器** | 用户执行 |
+
+### 跨平台支持
+
+框架提供两种脚本格式：
+
+| 平台 | 脚本格式 | 启动器 |
+|------|----------|--------|
+| Linux/macOS | `.sh` (Bash) | `./start.sh` |
+| Windows | `.ps1` (PowerShell) | `.\start.ps1` |
+
+**统一启动器** 会自动检测操作系统并执行对应的脚本。
 
 ## 快速开始
 
@@ -523,6 +566,8 @@ A: 将 `passes` 改回 `false`，删除 progress.txt 中对应的记录，Agent 
 
 ## 完整使用流程
 
+### Linux/macOS (Bash)
+
 ```bash
 # ============================================
 # 新项目：从零开始
@@ -533,6 +578,7 @@ cp auto/CLAUDE.md .
 cp auto/task.json .
 cp auto/progress.txt .
 cp auto/init.sh .
+cp auto/start.sh .
 cp auto/run-automation.sh .
 cp -r auto/knowledge .
 
@@ -542,10 +588,12 @@ cp -r auto/knowledge .
 # - 编辑 task.json：拆解任务，写具体步骤
 
 # 3. 给脚本执行权限
-chmod +x init.sh run-automation.sh
+chmod +x init.sh start.sh run-automation.sh
 
 # 4. 启动全自动开发！
 ./run-automation.sh 50
+# 或使用统一启动器
+./start.sh run 50
 
 # ============================================
 # 已有项目：接手继续开发
@@ -556,21 +604,83 @@ cp auto/CLAUDE.md .
 cp auto/task.json .
 cp auto/progress.txt .
 cp auto/init.sh .
+cp auto/start.sh .
 cp auto/run-automation.sh .
 cp auto/build-knowledge.sh .
 cp -r auto/knowledge .
 
 # 2. 给脚本执行权限
-chmod +x init.sh run-automation.sh build-knowledge.sh
+chmod +x init.sh start.sh run-automation.sh build-knowledge.sh
 
 # 3. 📚 生成项目知识库（关键步骤！）
 ./build-knowledge.sh
+# 或使用统一启动器
+./start.sh build-kb
 # 这会分析整个代码库，生成 AI 可读的项目文档
 
 # 4. 编辑 task.json 定义新任务
 
 # 5. 启动自动化开发
 ./run-automation.sh 50
+# 或使用统一启动器
+./start.sh run 50
+```
+
+### Windows (PowerShell)
+
+```powershell
+# ============================================
+# 新项目：从零开始
+# ============================================
+
+# 1. 复制框架文件到新项目目录
+Copy-Item auto\CLAUDE.md .
+Copy-Item auto\task.json .
+Copy-Item auto\progress.txt .
+Copy-Item auto\init.ps1 .
+Copy-Item auto\start.ps1 .
+Copy-Item auto\run-automation.ps1 .
+Copy-Item -Recurse auto\knowledge .
+
+# 2. 编辑配置文件
+# - 编辑 CLAUDE.md：填写项目信息、代码规范
+# - 编辑 init.ps1：设置项目目录、启动命令
+# - 编辑 task.json：拆解任务，写具体步骤
+
+# 3. 如果需要，设置执行策略
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# 4. 启动全自动开发！
+.\run-automation.ps1 -Runs 50
+# 或使用统一启动器
+.\start.ps1 run 50
+
+# ============================================
+# 已有项目：接手继续开发
+# ============================================
+
+# 1. 复制框架文件到项目根目录
+Copy-Item auto\CLAUDE.md .
+Copy-Item auto\task.json .
+Copy-Item auto\progress.txt .
+Copy-Item auto\init.ps1 .
+Copy-Item auto\start.ps1 .
+Copy-Item auto\run-automation.ps1 .
+Copy-Item auto\build-knowledge.ps1 .
+Copy-Item -Recurse auto\knowledge .
+
+# 2. 📚 生成项目知识库（关键步骤！）
+.\build-knowledge.ps1
+# 或使用统一启动器
+.\start.ps1 build-kb
+# 这会分析整个代码库，生成 AI 可读的项目文档
+
+# 3. 编辑 task.json 定义新任务
+
+# 4. 启动自动化开发
+.\run-automation.ps1 -Runs 50
+# 或使用统一启动器
+.\start.ps1 run 50
 ```
 
 然后你就可以：
@@ -590,10 +700,16 @@ auto/
 ├── task.json                  # 任务定义模板
 ├── progress.txt               # 进度日志模板
 │
-├── init-project.sh            # 🆕 项目智能初始化
-├── init.sh                    # 环境初始化脚本
-├── run-automation.sh          # 🌟 全自动循环执行器
-├── build-knowledge.sh         # 📚 知识库生成器
+├── start.sh                   # 🌟 跨平台启动器 (Bash)
+├── start.ps1                  # 🌟 跨平台启动器 (PowerShell)
+├── init-project.sh            # 🆕 项目智能初始化 (Bash)
+├── init-project.ps1           # 🆕 项目智能初始化 (PowerShell)
+├── init.sh                    # 环境初始化脚本 (Bash)
+├── init.ps1                   # 环境初始化脚本 (PowerShell)
+├── run-automation.sh          # 🔄 全自动循环执行器 (Bash)
+├── run-automation.ps1         # 🔄 全自动循环执行器 (PowerShell)
+├── build-knowledge.sh         # 📚 知识库生成器 (Bash)
+├── build-knowledge.ps1        # 📚 知识库生成器 (PowerShell)
 │
 ├── knowledge/                 # 知识库目录
 │   ├── SUMMARY.md
@@ -618,7 +734,8 @@ auto/
 │
 └── examples/
     ├── nextjs-task.json       # Next.js 示例
-    └── nextjs-init.sh
+    ├── nextjs-init.sh         # Next.js 初始化 (Bash)
+    └── nextjs-init.ps1        # Next.js 初始化 (PowerShell)
 ```
 
 ---
