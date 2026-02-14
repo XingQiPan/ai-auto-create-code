@@ -90,66 +90,69 @@ Write-Output ""
 # 创建临时提示词
 # ============================================
 
-$promptContent = @"
-# 任务：初始化 Auto Coding Agent 项目配置
+# 使用 StringBuilder 避免here-string格式问题
+$sb = [System.Text.StringBuilder]::new()
+[void]$sb.AppendLine("# 任务：初始化 Auto Coding Agent 项目配置")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("根据以下项目描述，生成完整的项目配置文件：")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("---")
+[void]$sb.AppendLine("项目描述：")
+[void]$sb.AppendLine($projectDesc)
+[void]$sb.AppendLine("---")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("## 需要生成的文件")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("### 1. CLAUDE.md")
+[void]$sb.AppendLine("生成完整的 Agent 工作指令文件，包括：")
+[void]$sb.AppendLine("- 项目信息（根据描述推断技术栈）")
+[void]$sb.AppendLine("- 知识库引用")
+[void]$sb.AppendLine("- 技能引用")
+[void]$sb.AppendLine("- 完整的工作流程")
+[void]$sb.AppendLine("- 代码规范（根据技术栈定制）")
+[void]$sb.AppendLine("- 测试要求（使用该技术栈的测试命令）")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("### 2. task.json")
+[void]$sb.AppendLine("生成初始任务文件，包括：")
+[void]$sb.AppendLine("- 项目基本信息")
+[void]$sb.AppendLine("- 项目初始化任务（安装依赖、配置环境等）")
+[void]$sb.AppendLine("- 基础架构搭建任务")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("### 3. progress.txt")
+[void]$sb.AppendLine("生成初始进度文件模板")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("### 4. init.sh / init.ps1")
+[void]$sb.AppendLine("生成环境初始化脚本，根据技术栈定制：")
+[void]$sb.AppendLine("- 检测包管理器（npm/yarn/pnpm/pip/poetry/go mod 等）")
+[void]$sb.AppendLine("- 安装依赖的命令")
+[void]$sb.AppendLine("- 启动开发服务器的命令")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("### 5. technology.md（可选）")
+[void]$sb.AppendLine("如果识别出技术栈，生成技术栈说明文件")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("## 技术栈识别")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("根据项目描述，识别以下信息：")
+[void]$sb.AppendLine("- 前端框架（React/Vue/Angular/Svelte/纯HTML/无前端）")
+[void]$sb.AppendLine("- 后端框架（Express/FastAPI/Django/Flask/Spring/Go/无后端）")
+[void]$sb.AppendLine("- 数据库（PostgreSQL/MySQL/MongoDB/SQLite/无数据库）")
+[void]$sb.AppendLine("- 语言（TypeScript/JavaScript/Python/Go/Java/Rust）")
+[void]$sb.AppendLine("- 包管理器（npm/yarn/pnpm/pip/poetry/cargo/go mod）")
+[void]$sb.AppendLine("- 测试框架（Jest/Vitest/pytest/JUnit/Go test）")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("## 输出要求")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("1. 每个文件用明确的分隔符标注")
+[void]$sb.AppendLine("2. 文件内容完整，可直接使用")
+[void]$sb.AppendLine("3. 根据识别的技术栈定制命令和规范")
+[void]$sb.AppendLine("4. 如果描述不够具体，做出合理推断并标注")
+[void]$sb.AppendLine("")
+[void]$sb.AppendLine("开始生成配置文件。")
 
-根据以下项目描述，生成完整的项目配置文件：
+$promptContent = $sb.ToString()
 
----
-项目描述：
-$projectDesc
----
-
-## 需要生成的文件
-
-### 1. CLAUDE.md
-生成完整的 Agent 工作指令文件，包括：
-- 项目信息（根据描述推断技术栈）
-- 知识库引用
-- 技能引用
-- 完整的工作流程
-- 代码规范（根据技术栈定制）
-- 测试要求（使用该技术栈的测试命令）
-
-### 2. task.json
-生成初始任务文件，包括：
-- 项目基本信息
-- 项目初始化任务（安装依赖、配置环境等）
-- 基础架构搭建任务
-
-### 3. progress.txt
-生成初始进度文件模板
-
-### 4. init.sh / init.ps1
-生成环境初始化脚本，根据技术栈定制：
-- 检测包管理器（npm/yarn/pnpm/pip/poetry/go mod 等）
-- 安装依赖的命令
-- 启动开发服务器的命令
-
-### 5. technology.md（可选）
-如果识别出技术栈，生成技术栈说明文件
-
-## 技术栈识别
-
-根据项目描述，识别以下信息：
-- 前端框架（React/Vue/Angular/Svelte/纯HTML/无前端）
-- 后端框架（Express/FastAPI/Django/Flask/Spring/Go/无后端）
-- 数据库（PostgreSQL/MySQL/MongoDB/SQLite/无数据库）
-- 语言（TypeScript/JavaScript/Python/Go/Java/Rust）
-- 包管理器（npm/yarn/pnpm/pip/poetry/cargo/go mod）
-- 测试框架（Jest/Vitest/pytest/JUnit/Go test）
-
-## 输出要求
-
-1. 每个文件用明确的分隔符标注
-2. 文件内容完整，可直接使用
-3. 根据识别的技术栈定制命令和规范
-4. 如果描述不够具体，做出合理推断并标注
-
-开始生成配置文件。
-"@
-
-$tempFile = Join-Path $env:TEMP "init-project-prompt-$(Get-Date -FormatyyyyMMddHHmmss).txt"
+$timestamp = Get-Date -Format "yyyyMMddHHmmss"
+$tempFile = Join-Path $env:TEMP "init-project-prompt-$timestamp.txt"
 $promptContent | Out-File -FilePath $tempFile -Encoding utf8
 
 # ============================================
@@ -166,7 +169,7 @@ if ($claudeCmd) {
     Start-Process -FilePath "claude" -ArgumentList @(
         "-p",
         "--dangerously-skip-permissions",
-        '--allowed-tools', 'Bash Read Write Glob Grep Edit'
+        "--allowed-tools", "Bash Read Write Glob Grep Edit"
     ) -RedirectStandardInput $tempFile -NoNewWindow -Wait
 }
 else {
