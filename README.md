@@ -19,6 +19,8 @@
 
 ## 快速开始
 
+### Linux/macOS (Bash)
+
 ```bash
 # 1. 克隆
 git clone https://github.com/XingQiPan/ai-auto-create-code.git
@@ -34,6 +36,43 @@ cd my-project
 
 # 5. 启动自动开发
 ./run-automation.sh 50
+```
+
+### Windows (PowerShell)
+
+```powershell
+# 1. 克隆
+git clone https://github.com/XingQiPan/ai-auto-create-code.git
+
+# 2. 复制框架到你的项目
+Copy-Item -Recurse ai-auto-create-code\auto\* my-project\
+
+# 3. 智能初始化（自动识别技术栈）
+cd my-project
+.\init-project.ps1 -Description "Python FastAPI + Vue.js 博客系统"
+
+# 4. 编辑 task.json 添加任务
+
+# 5. 启动自动开发
+.\run-automation.ps1 -Runs 50
+```
+
+### 跨平台统一启动器
+
+```bash
+# Linux/macOS
+./start.sh init              # 初始化环境
+./start.sh run 50            # 运行自动化
+./start.sh init-project      # 初始化新项目
+./start.sh build-kb          # 构建知识库
+```
+
+```powershell
+# Windows PowerShell
+.\start.ps1 init             # 初始化环境
+.\start.ps1 run 50           # 运行自动化
+.\start.ps1 init-project     # 初始化新项目
+.\start.ps1 build-kb         # 构建知识库
 ```
 
 ---
@@ -87,9 +126,17 @@ cd my-project
 | `CLAUDE.md` | AI 工作指令 |
 | `task.json` | 任务定义 |
 | `progress.txt` | 进度日志 |
-| `init-project.sh` | 智能初始化 |
-| `run-automation.sh` | 自动执行器 |
-| `build-knowledge.sh` | 知识库生成 |
+| `init-project.sh` / `.ps1` | 智能初始化 |
+| `run-automation.sh` / `.ps1` | 自动执行器 |
+| `build-knowledge.sh` / `.ps1` | 知识库生成 |
+| `start.sh` / `.ps1` | 跨平台统一启动器 |
+
+### 跨平台支持
+
+| 平台 | 脚本格式 | 启动器 |
+|------|----------|--------|
+| Linux/macOS | `.sh` (Bash) | `./start.sh` |
+| Windows | `.ps1` (PowerShell) | `.\start.ps1` |
 
 ---
 
